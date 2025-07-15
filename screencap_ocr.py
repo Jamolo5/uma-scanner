@@ -28,18 +28,6 @@ with open("results.json", "r", encoding="utf-8") as f:
 lookup_map = {}
 code_to_path = {}
 
-
-def flatten_lookup(data):
-    for category, subcats in data.items():
-        for subcat, codes in subcats.items():
-            for code, values in codes.items():
-                code_upper = code.upper()
-                lookup_map[code_upper] = values
-                code_to_path[code_upper] = (category, subcat)
-
-
-flatten_lookup(raw_data)
-
 # === OCR Preprocessing ===
 
 
@@ -52,6 +40,34 @@ def preprocess_image(img):
     return img
 
 
+# === Text Normalization ===
+
+
+def normalize_text(text):
+    """
+    Normalizes text for fuzzy matching by removing special characters and standardizing formatting.
+    """
+    text = text.upper().strip()
+    text = text.replace(" ", "")  # Remove spaces
+    text = text.replace("(", "").replace(")", "")  # Remove parentheses
+    text = text.replace("-", "")  # Remove dashes
+    return text
+
+
+def flatten_lookup(data):
+    """
+    Flattens the hierarchical JSON data into lookup maps for fuzzy matching.
+    """
+    for category, subcats in data.items():
+        for subcat, codes in subcats.items():
+            for code, values in codes.items():
+                code_normalized = normalize_text(code)  # Normalize keys
+                lookup_map[code_normalized] = values
+                code_to_path[code_normalized] = (category, subcat)
+
+
+flatten_lookup(raw_data)
+
 # === Fuzzy Matching ===
 
 
@@ -60,7 +76,10 @@ def get_best_matches_with_path(detected_text):
     Finds the best fuzzy matches for the detected text and returns detailed match information.
     Filters matches manually based on a score cutoff.
     """
-    normalized = detected_text.upper().strip().replace(" ", "-")
+    normalized = normalize_text(detected_text)
+    print(f"Normalized OCR'd text: {normalized}")  # Debugging line
+    print(f"Dataset keys: {list(lookup_map.keys())[:10]}")  # Print first 10 keys for debugging
+
     results = process.extract(normalized, lookup_map.keys())  # Removed score_cutoff
 
     # Manually filter results based on score cutoff
@@ -80,11 +99,12 @@ def get_best_matches_with_path(detected_text):
             "score": score,
         })
 
+    print(f"Filtered matches: {matches}")  # Debugging line
     return matches if matches else None
 
 
 def get_best_match_with_path(detected_text):
-    normalized = detected_text.upper().strip().replace(" ", "-")
+    normalized = normalize_text(detected_text)
     result = process.extractOne(normalized, lookup_map.keys(), score_cutoff=70)
 
     if result:
@@ -120,8 +140,8 @@ def scan_loop(label, regions):
     Continuously scans the defined regions, performs OCR, and updates the UI with results.
     Dynamically resizes the window to fit the text content, up to a maximum height.
     """
-    last_results = {}  # Stores the last detected text for each region
-    last_selected_matches = {}  # Stores the last selected match for each region
+    last_results = {}
+    last_selected_matches = {}
     time.sleep(1)
 
     while True:
@@ -139,48 +159,63 @@ def scan_loop(label, regions):
             )
             detected = text or "[No text detected]"
 
-            # Initialize selected_match
             selected_match = None
 
-            # Check if the detected text has changed
             if last_results.get(name) != detected:
-                last_results[name] = detected  # Update the last detected text
+                last_results[name] = detected
                 matches = get_best_matches_with_path(detected)
 
                 if matches:
+                    # print the number of matches
+                    print(f"Found {len(matches)} matches for '{name}': {detected}")
                     if len(matches) == 1:
-                        # Automatically select the single match
                         selected_match = matches[0]
                     else:
-                        # Check if all matches are identical
                         first_match = matches[0]
                         if all(match["code"] == first_match["code"] and match["score"] == first_match["score"] for match in matches):
-                            # Prompt the user to select a match if all matches are identical
+                            # Trigger the button to select one of the matches
                             selected_match = select_match(matches)
                         else:
-                            # Automatically select the best match
-                            selected_match = matches[0]  # Select the match with the highest score
+                            selected_match = matches[0]
                     last_selected_matches[name] = selected_match if selected_match else None
                 else:
                     last_selected_matches[name] = None
             else:
-                # Use the last selected match if the text hasn't changed
                 selected_match = last_selected_matches.get(name)
+
+            # Add a button to select alternative matches
+            if selected_match and len(matches) > 1:
+                alternative_button = tk.Button(
+                    frame,
+                    text="Select Alternative Match",
+                    command=lambda: update_overlay_with_alternative_match(name, matches),
+                    bg="black",
+                    fg="white",
+                    font=("Consolas", 10),
+                    bd=0,
+                    highlightthickness=0,
+                    activebackground="black",
+                    activeforeground="yellow",
+                )
+                alternative_button.grid(row=2, column=0, sticky="nsew", padx=10, pady=5)
+            else:
+                # Remove the button if it exists
+                for widget in frame.grid_slaves():
+                    if isinstance(widget, tk.Button) and widget.cget("text") == "Select Alternative Match":
+                        widget.destroy()
 
             result = selected_match if selected_match else None
             output = f"{name}: {detected}\n{format_result(result)}"
             outputs.append(output)
 
-        # Update the label with the OCR results
         label.config(text="\n\n".join(outputs))
-        label.update_idletasks()  # Force the label to update its layout
+        label.update_idletasks()
 
-        # Dynamically resize the window based on the label's content height
-        content_height = label.winfo_height()  # Fetch updated height after layout update
+        content_height = label.winfo_height()
         window_width = root.winfo_width()
 
-        max_height = 1000  # Maximum height limit
-        min_height = 400   # Minimum height limit
+        max_height = 1000
+        min_height = 300
         new_height = max(min(content_height + 60, max_height), min_height)
 
         root.geometry(f"{window_width}x{new_height}")
@@ -368,6 +403,78 @@ def select_match(matches):
     root.wait_window(dialog)
 
     return selected_match
+
+
+def select_alternative_match(matches):
+    """
+    Displays a dialog for the user to select an alternative match from high-ranking matches.
+    Positions the dialog just below the main window.
+    """
+    if not matches:
+        return None
+
+    def on_select(selected_index):
+        nonlocal selected_match
+        selected_match = matches[selected_index]
+        dialog.destroy()
+
+    # Get the position and size of the main window
+    main_geometry = root.geometry()
+    main_x, main_y, main_width, main_height = map(
+        int, main_geometry.replace("x", "+").split("+")
+    )
+
+    # Position the dialog just below the main window
+    dialog_x = main_x
+    dialog_y = main_y + main_height + 10  # Add a small gap below the main window
+
+    dialog = tk.Toplevel(root)
+    dialog.title("Select Alternative Match")
+    dialog.geometry(f"1000x400+{dialog_x}+{dialog_y}")  # Set position below main window
+    dialog.configure(bg="black")
+
+    selected_match = None
+
+    for i, match in enumerate(matches):
+        text = f"[{match['category']} > {match['subcategory']} > {match['code']}] (Score: {match['score']})"
+        button = tk.Button(
+            dialog,
+            text=text,
+            command=lambda idx=i: on_select(idx),
+            bg="black",
+            fg="white",
+            font=("Consolas", 10),
+            bd=0,
+            highlightthickness=0,
+            activebackground="black",
+            activeforeground="yellow",
+            wraplength=950,  # Adjusted wraplength to fit wider text
+        )
+        button.pack(fill="x", padx=10, pady=5)
+
+    dialog.transient(root)
+    dialog.grab_set()
+    root.wait_window(dialog)
+
+    return selected_match
+
+
+# Declare last_selected_matches globally
+last_selected_matches = {}
+
+
+def update_overlay_with_alternative_match(name, matches):
+    """
+    Updates the overlay content to reflect the selected alternative match.
+    """
+    global last_selected_matches  # Access the global variable
+    selected_match = select_alternative_match(matches)  # Call the selection dialog
+    if selected_match:
+        last_selected_matches[name] = selected_match
+        # Update the label with the new match
+        result = format_result(selected_match)
+        label.config(text=f"{name}: {result}")
+        label.update_idletasks()
 
 
 # === Start scanning in a thread ===
