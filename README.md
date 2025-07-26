@@ -76,3 +76,8 @@ A lightweight **screen overlay application** designed to assist players of the g
     ```
     python screencap_ocr.py
     ```
+
+## Known Issues
+
+Some Umas have identically named events which are not correctly identified (e.g. Dance Lesson, New Year's Resolutions, etc)
+Scenario specific events do not have data
