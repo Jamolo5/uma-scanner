@@ -50,20 +50,15 @@ A lightweight **screen overlay application** designed to assist players of the g
     ```
 
     Replace X, Y, WIDTH, and HEIGHT with the pixel coordinates and size of the capture box on your screen.
+    If you are on a 4k display and playing Uma Musume on your primary monitor, you may not need to change these values.
+    
 
 2. How to determine the correct region coordinates:
 
-    Launch UMA Musume and open the event screen with choices visible.
-
-    Use a screen ruler tool or Windows’ built-in Snipping Tool / Snip & Sketch to estimate the exact position and size of the event details box on your screen.
-
-    Alternatively, use a Python snippet to capture mouse position:
-
-    import pyautogui
-    print(pyautogui.position())
-
-    Run this script, then hover your mouse over the top-left corner of the event details area and note the coordinates (X, Y).
-    Repeat for the bottom-right corner, then calculate width and height as (bottom_right_x - X) and (bottom_right_y - Y).
+    X and Y are coordinates relative to the top left of your monitor.
+    I'm attaching how I measured the coordinates using ShareX
+    ![Screen Measuring 1](sharex_screen_measuring1.png)
+    ![Screen Measuring 2](sharex_screen_measuring2.png)
 
 3. Update the `box` field in config.json with your measurements. For example:
     ```
