@@ -23,7 +23,7 @@ A lightweight **screen overlay application** designed to assist players of the g
 ## Installation & Requirements
 
 - **Python 3.8+**  
-- [Tesseract OCR](https://github.com/tesseract-ocr/tesseract) installed and added to system PATH  
+- [Tesseract OCR for Windows](https://github.com/UB-Mannheim/tesseract/wiki) or [Tesseract OCR (Other platforms)](https://github.com/tesseract-ocr/tesseract) installed
 - Python packages:  
   ```bash
   pip install pytesseract pillow pyautogui fuzzywuzzy
