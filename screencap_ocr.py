@@ -76,8 +76,8 @@ def get_best_matches_with_path(detected_text):
     Filters matches manually based on a score cutoff.
     """
     normalized = normalize_text(detected_text)
-    print(f"Normalized OCR'd text: {normalized}")  # Debugging line
-    print(f"Dataset keys: {list(lookup_map.keys())[:10]}")  # Print first 10 keys for debugging
+    # print(f"Normalized OCR'd text: {normalized}")  # Debugging line
+    # print(f"Dataset keys: {list(lookup_map.keys())[:10]}")  # Print first 10 keys for debugging
 
     results = process.extract(normalized, lookup_map.keys())  # Removed score_cutoff
 
@@ -98,7 +98,7 @@ def get_best_matches_with_path(detected_text):
             "score": score,
         })
 
-    print(f"Filtered matches: {matches}")  # Debugging line
+    # print(f"Filtered matches: {matches}")  # Debugging line
     return matches if matches else None
 
 
@@ -166,7 +166,7 @@ def scan_loop(label, regions):
 
                 if matches:
                     # print the number of matches
-                    print(f"Found {len(matches)} matches for '{name}': {detected}")
+                    # print(f"Found {len(matches)} matches for '{name}': {detected}")
                     if len(matches) == 1:
                         selected_match = matches[0]
                     else:
