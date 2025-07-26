@@ -4,6 +4,7 @@
         "name": "Event details",
         "box": [480, 388, 840, 100]
       }
-    ]
+    ],
+    "tesseract_path": "C:/Program Files/Tesseract-OCR/tesseract.exe"
   }
   

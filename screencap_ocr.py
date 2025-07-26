@@ -9,16 +9,15 @@ from fuzzywuzzy import process
 import numpy as np
 from PIL import Image, ImageOps, ImageEnhance
 
-pytesseract.pytesseract.tesseract_cmd = (
-    "C:\\Program Files\\Tesseract-OCR\\tesseract.exe"
-)
-
 # === Load config ===
 
 with open("config.json", "r", encoding="utf-8") as f:
     config = json.load(f)
 
 regions = config.get("regions", [])
+pytesseract.pytesseract.tesseract_cmd = config.get("tesseract_path", "")
+if not pytesseract.pytesseract.tesseract_cmd:
+    raise ValueError("Tesseract path not set in config.json")
 
 # === Load 3-Level JSON ===
 

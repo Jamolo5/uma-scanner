@@ -32,7 +32,7 @@ A lightweight **screen overlay application** designed to assist players of the g
 - [Tesseract OCR](https://github.com/tesseract-ocr/tesseract) installed and added to system PATH  
 - Python packages:  
   ```bash
-  pip install pytesseract pillow pyautogui fuzzywuzzy python-Levenshtein
+  pip install pytesseract pillow pyautogui fuzzywuzzy
 
 ## Setup
 
@@ -60,19 +60,7 @@ A lightweight **screen overlay application** designed to assist players of the g
     ![Screen Measuring 1](sharex_screen_measuring1.png)
     ![Screen Measuring 2](sharex_screen_measuring2.png)
 
-3. Update the `box` field in config.json with your measurements. For example:
-    ```
-    {
-    "regions": [
-        {
-        "name": "Event details",
-        "box": [100, 200, 400, 150]
-        }
-    ]
-    }
-    ```
-
-4. Run the scanner:
+3. Run the scanner:
     ```
     python screencap_ocr.py
     ```
@@ -81,3 +69,4 @@ A lightweight **screen overlay application** designed to assist players of the g
 
 Some Umas have identically named events which are not correctly identified (e.g. Dance Lesson, New Year's Resolutions, etc)
 Scenario specific events do not have data
+The "Select Alternative Match" button thingy doesn't work very well, it lets you select another closely matching option if the fuzzy match didn't pick the right even, but after making your selection it gets overwritten on the next loop. Usually the best match is good enough that I haven't bothered improving this functionality.
