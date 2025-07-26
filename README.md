@@ -16,13 +16,7 @@ A lightweight **screen overlay application** designed to assist players of the g
   Matches detected text against a nested database of known game choices using fuzzy string matching for robust recognition even with OCR inaccuracies.
 
 - **Dynamic Overlay:**  
-  Displays matched choice information as a transparent, always-on-top overlay window with options listed and categorized.
-
-- **Configurable Region:**  
-  Capture region is user-configurable via an external JSON file (`config.json`), enabling flexible setup based on screen resolution or window layout.
-
-- **User-Friendly Interface:**  
-  Includes a draggable overlay window with a fixed-position Close button for convenient control without obstructing gameplay.
+  Displays matched choice information as a transparent, always-on-top overlay window with options listed.
 
 ---
 
