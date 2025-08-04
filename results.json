@@ -17197,6 +17197,13 @@
       "Breaking Curfew is Second-Rate": [
         "Guts +5 / Wisdom +5",
         "Speed +5 / Power +5"
+      ],
+      "Just an Acupuncturist, No Worries!": [
+        "All stats +20",
+        "Obtain Corner Recovery ○ skill / Obtain Straightaway Recovery skill",
+        "Maximum Energy +12 / Energy +40 / Heal all negative status effects",
+        "Energy +20 / Mood +1 / Get Charming ○ status",
+        "Energy +10"
       ]
     }
   }
