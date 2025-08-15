@@ -215,7 +215,7 @@ def scan_loop(label, regions):
 
         max_height = 1000
         min_height = 300
-        new_height = max(min(content_height + 60, max_height), min_height)
+        new_height = max(min(content_height, max_height), min_height)
 
         root.geometry(f"{window_width}x{new_height}")
         time.sleep(1)
