@@ -15023,62 +15023,62 @@
       ]
     },
     "101601-narita-brian": {
-      "意匠": [
+      "Strategy": [
         "Speed +20",
         "Power +20"
       ],
-      "武骨": [
+      "Tact": [
         "Stamina +20",
         "Wisdom +20"
       ],
-      "不動": [
+      "Flexibility": [
         "Speed +20 / (random) Get Hot Topic status",
         "Guts +20 / (random) Get Hot Topic status"
       ],
-      "憧憬": [
+      "Aspiration": [
         "Power +10",
         "Energy -10 / Power +20"
       ],
-      "超越": [
+      "Transcendence": [
         "Power +10",
         "Stamina +5 / Guts +5"
       ],
-      "手腕": [
+      "Ability": [
         "Speed +15",
         "Passing Pro hint +1"
       ],
-      "飢えた戦士たち": [
+      "Starving Warriors": [
         "Energy +5 / Wisdom +10",
         "Randomly either / Energy -10 / Mood +1 / Speed +25 / or / Energy -10 / Speed +10",
         "Randomly either / Energy -10 / Mood +1 / Stamina +25 / or / Energy -10 / Stamina +10",
         "Randomly either / Energy -10 / Mood +1 / Power +25 / or / Energy -10 / Power +10"
       ],
-      "肉食": [
+      "Carnivore": [
         "Energy +10 / Skill points +5",
         "Randomly either / Energy +30 / Skill points +10 / or / Energy +30 / Skill points +10 / Speed -5 / Power +5 / Get Slow Metabolism status"
       ],
-      "孤高のグルメ？": [
+      "A Lone Wolf's Diet": [
         "Speed +5 / Power +5",
         "Stamina +10"
       ],
-      "ブライアンは見た……！": [
+      "Caught by Brian!": [
         "Stamina +10",
         "Guts +10"
       ],
-      "ファミリーレストラン": [
+      "Digging In": [
         "Speed +10",
         "Stamina +10",
         "Guts +10"
       ],
-      "孤高の責任": [
+      "A Lone Wolf Hunts Aalone": [
         "Stamina +5 / Guts +5",
         "Power +5 / Wisdom +5"
       ],
-      "得意距離？": [
+      "Breakthrough": [
         "Stamina +10",
         "Wisdom +10"
       ],
-      "岐": [
+      "Public Appearance": [
         "Increased difficulty and rewards of future training goals",
         "Nothing happens"
       ]
