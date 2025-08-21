@@ -3059,19 +3059,19 @@
       ]
     },
     "30029-satono-diamond": {
-      "(❯❯) ダイヤのこだわり": [
+      "(❯❯) Diamond Fixation": [
         "Wisdom +10 / Satono Diamond bond +5",
         "Randomly either / Energy +15 / Stamina +10 / Satono Diamond bond +5 / or / Mood -1 / Guts +20"
       ],
-      "(❯❯❯) あなたにだけは絶対に": [
+      "(❯❯❯) Only for You": [
         "Energy -20 / Stamina +30 / Iron Will hint +1 / Satono Diamond bond +5",
         "Energy +5 / Guts +5 / Iron Will hint +1 / Satono Diamond bond +5"
       ],
-      "新しいもの、大好きです！": [
+      "I Love New Things": [
         "Guts +10 / Satono Diamond bond +5",
         "Energy -10 / Stamina +20 / Satono Diamond bond +5"
       ],
-      "難しいこと、大好きです！": [
+      "I Love Complicated Things!": [
         "Stamina +5 / Guts +10 / Satono Diamond bond +5",
         "Hesitant Front Runners hint +1 / Satono Diamond bond +5"
       ]
@@ -5205,11 +5205,11 @@
       ]
     },
     "10056-satono-diamond": {
-      "新しいもの、大好きです！": [
+      "I Love New Things!": [
         "Guts +10 / Satono Diamond bond +5",
         "Energy -10 / Stamina +20 / Satono Diamond bond +5"
       ],
-      "難しいこと、大好きです！": [
+      "I Love Complicated Things!": [
         "Stamina +5 / Guts +10 / Satono Diamond bond +5",
         "Hesitant Front Runners hint +1 / Satono Diamond bond +5"
       ]
